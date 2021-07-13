@@ -166,8 +166,8 @@
     matHeatMap[i] = new Array(100);
   }
 
-for (int i = 0; i < 100; i++){
-  for (int j = 0; j < 100; j++){
+for (var i = 0; i < 100; i++){
+  for (var j = 0; j < 100; j++){
     matHeatMap[i][j] = 0;
   }
 }
@@ -178,8 +178,8 @@ for (int i = 0; i < 100; i++){
     matDeadMap[i] = new Array(100);
   }
 
-for (int i = 0; i < 100; i++){
-  for (int j = 0; j < 100; j++){
+for (var i = 0; i < 100; i++){
+  for (var j = 0; j < 100; j++){
     matDeadMap[i][j] = 0;
   }
 }
@@ -207,7 +207,7 @@ for (int i = 0; i < 100; i++){
           var lines = reader.result.split(/[\r\n]+/g); // tolerate both Windows and Unix linebreaks
          
 
-          for (int i = 0; i < lines.length; i++){
+          for (var i = 0; i < lines.length; i++){
             procesaLinea(lines[i]);
           }
 
@@ -296,15 +296,15 @@ for (int i = 0; i < 100; i++){
     
   }
 function initMatrices(){
-    for (int i = 0; i < 100; i++){
-    for (int j = 0; j < 100; j++){
+    for (var i = 0; i < 100; i++){
+    for (var j = 0; j < 100; j++){
       matHeatMap[i][j] = 0;
     }
     }
   maxHeatMap = 0;
 
-  for (int i = 0; i < 100; i++){
-  for (int j = 0; j < 100; j++){
+  for (var i = 0; i < 100; i++){
+  for (var j = 0; j < 100; j++){
     matDeadMap[i][j] = 0;
   }
   }
@@ -406,10 +406,10 @@ function initMatrices(){
         generate();
   }
 
-procesaLinea(linea){
+  function procesaLinea(linea) {
 //Aqui falta todo el procesado
-
-}
+   
+   }
 
   function addToHeatmap(posX, posY,nivel){
     if (nivel == 1){
@@ -417,13 +417,13 @@ procesaLinea(linea){
       var y = Math.round((posY + 41) / 1.03);
       matHeatMap [x][y] += 1;
       if ( matHeatMap [x][y] > maxHeatMap) maxHeatMap = matHeatMap [x][y];
-    } else f (nivel == 2){
+    } else if (nivel == 2){
       var x = Math.round((posX + 29) / 0.74);
       var y = Math.round((posY + 56) / 0.95);
       matHeatMap [x][y] += 1;
       if ( matHeatMap [x][y] > maxHeatMap) maxHeatMap = matHeatMap [x][y];
-    } else f (nivel == 3){
-      var x = Math.round((posX + 23) / 1.2;
+    } else if (nivel == 3){
+      var x = Math.round((posX + 23) / 1.2);
       var y = Math.round((posY + 11) / 0.68);
       matHeatMap [x][y] += 1;
       if ( matHeatMap [x][y] > maxHeatMap) maxHeatMap = matHeatMap [x][y];
@@ -436,13 +436,13 @@ procesaLinea(linea){
       var y = Math.round((posY + 41) / 1.03);
       matDeadMap [x][y] += 1;
       if ( matDeadMap [x][y] > matDeadMap) matDeadMap = matDeadMap [x][y];
-    } else f (nivel == 2){
+    } else if (nivel == 2){
       var x = Math.round((posX + 29) / 0.74);
       var y = Math.round((posY + 56) / 0.95);
       matDeadMap [x][y] += 1;
       if ( matDeadMap [x][y] > matDeadMap) matDeadMap = matDeadMap [x][y];
-    } else f (nivel == 3){
-      var x = Math.round((posX + 23) / 1.2;
+    } else if (nivel == 3){
+      var x = Math.round((posX + 23) / 1.2);
       var y = Math.round((posY + 11) / 0.68);
       matDeadMap [x][y] += 1;
       if ( matDeadMap [x][y] > matDeadMap) matDeadMap = matDeadMap [x][y];
@@ -450,8 +450,8 @@ procesaLinea(linea){
   }
 
   function normalizaMat(){
-    for (int i = 0; i < 100; i++){
-      for (int j = 0; j < 100; j++){
+    for (var i = 0; i < 100; i++){
+      for (var j = 0; j < 100; j++){
         var aux = matHeatMap[i][j];
         aux = aux / maxHeatMap * 100;
         matHeatMap [i][j] = aux;
@@ -460,8 +460,8 @@ procesaLinea(linea){
   }
 
   function normalizaMat2(){
-    for (int i = 0; i < 100; i++){
-      for (int j = 0; j < 100; j++){
+    for (var i = 0; i < 100; i++){
+      for (var j = 0; j < 100; j++){
         var aux = matDeadMap[i][j];
         aux = aux / matDeadMap * 100;
         matDeadMap [i][j] = aux;
