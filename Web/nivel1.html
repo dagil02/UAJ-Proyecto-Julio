@@ -161,7 +161,18 @@
 
   var clicksCinematica = 1453415847;
   
-  
+  var matHeatMap = [];
+  for(var i=0; i<100; i++) {
+    matHeatMap[i] = new Array(100);
+  }
+
+for (int i = 0; i < 100; i++){
+  for (int j = 0; j < 100; j++){
+    matHeatMap[i][j] = 0;
+  }
+}
+  var maxHeatMap = 0;
+
   function sortFunction(a, b) {
     if (a[0] === b[0]) {
       return 0;
@@ -413,10 +424,10 @@ function initMatrices(){
 			for (var j = 0; j < 100; j++){
 				var x = i / 100 * tamx + posx;
 				var y = j / 100 * tamy + posy;
-				console.log("dentro");
+		
 				var c = mat[i][j];
 				// btw, we can set a radius on a point basis
-				if (c > 0) console.log("punto");
+			
 				// add to dataset
 				t.push({ x: x, y:y, value: c, radius: 4 });
 			}
@@ -429,6 +440,35 @@ function initMatrices(){
         };
         // initial generate
         generate();
+  }
+
+  function addToHeatmap(posX, posY,nivel){
+    if (nivel == 1){
+      var x = Math.round((posX + 85) / 1.04);
+      var y = Math.round((posY + 41) / 1.03);
+      matHeatMap [x][y] += 1;
+      if ( matHeatMap [x][y] > maxHeatMap) maxHeatMap = matHeatMap [x][y];
+    } else f (nivel == 2){
+      var x = Math.round((posX + 29) / 0.74);
+      var y = Math.round((posY + 56) / 0.95);
+      matHeatMap [x][y] += 1;
+      if ( matHeatMap [x][y] > maxHeatMap) maxHeatMap = matHeatMap [x][y];
+    } else f (nivel == 3){
+      var x = Math.round((posX + 23) / 1.2;
+      var y = Math.round((posY + 11) / 0.68);
+      matHeatMap [x][y] += 1;
+      if ( matHeatMap [x][y] > maxHeatMap) maxHeatMap = matHeatMap [x][y];
+    }
+  }
+
+  function normalizaMat(){
+    for (int i = 0; i < 100; i++){
+      for (int j = 0; j < 100; j++){
+        var aux = matHeatMap[i][j];
+        aux = aux / maxHeatMap * 100;
+        matHeatMap [i][j] = aux;
+      }
+    }    
   }
 </script>
 
