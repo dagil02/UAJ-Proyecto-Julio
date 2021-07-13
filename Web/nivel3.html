@@ -129,7 +129,7 @@
   //Variables
 
 
-	var totalSamples = 69; // número total de partidas acumuladas hasta ahora
+		var totalSamples = 69; // número total de partidas acumuladas hasta ahora
 	var mapaCalorMuertes;
 	var promedioMuertes = 5.7;
 	var porcentajeFlashes = 75;
@@ -160,7 +160,18 @@
 
   var clicksCinematica = 1453415847;
   
-  
+  var matHeatMap = [];
+  for(var i=0; i<100; i++) {
+    matHeatMap[i] = new Array(100);
+  }
+
+for (int i = 0; i < 100; i++){
+  for (int j = 0; j < 100; j++){
+    matHeatMap[i][j] = 0;
+  }
+}
+  var maxHeatMap = 0;
+
   function sortFunction(a, b) {
     if (a[0] === b[0]) {
       return 0;
@@ -200,22 +211,22 @@
 
           var splittedLine;
 
-          currentLine = lines[40]; splittedLine = currentLine.split(' '); totalSamples = parseInt(splittedLine[1]); // Primera linea de datos Nivel 2
-          currentLine = lines[41]; splittedLine = currentLine.split(' '); promedioMuertes = parseFloat(splittedLine[1]);
-          currentLine = lines[42]; splittedLine = currentLine.split(' '); porcentajeFlashes = parseInt(splittedLine[1]);
-          currentLine = lines[43]; splittedLine = currentLine.split(' '); promedioPuntuacion = parseFloat(splittedLine[1]);
-          currentLine = lines[44]; splittedLine = currentLine.split(' '); porcentajeColeccionables = parseInt(splittedLine[1]);
-          currentLine = lines[45]; splittedLine = currentLine.split(' '); promedioTiempoNivel = parseFloat(splittedLine[1]);
-          currentLine = lines[46]; splittedLine = currentLine.split(' '); promedioDetecciones = parseFloat(splittedLine[1]);
-          currentLine = lines[47]; splittedLine = currentLine.split(' '); promedioGuardiasFlasheados = parseFloat(splittedLine[1]);
-          currentLine = lines[48]; splittedLine = currentLine.split(' '); porcentajeCamarasDesactivadas = parseInt(splittedLine[1]);
-          currentLine = lines[49]; splittedLine = currentLine.split(' '); promedioDeteccionCamaras = parseFloat(splittedLine[1]);
-          currentLine = lines[50]; splittedLine = currentLine.split(' '); porcentajeCarretesRecogidos = parseInt(splittedLine[1]);
-          currentLine = lines[51]; splittedLine = currentLine.split(' '); porcentajeFlashesRecogidos = parseInt(splittedLine[1]);
-          currentLine = lines[52]; splittedLine = currentLine.split(' '); promedioTiempoEnHallarObjetivo = parseFloat(splittedLine[1]);
-          currentLine = lines[53]; splittedLine = currentLine.split(' '); promedioFotosContraGuardias = parseFloat(splittedLine[1]);
-          currentLine = lines[54]; splittedLine = currentLine.split(' '); promedioFallosMinijuego = parseFloat(splittedLine[1]);
-          currentLine = lines[55]; splittedLine = currentLine.split(' '); porcentajeColeccionablesConcretos = parseFloat(splittedLine[1]);
+          currentLine = lines[2]; splittedLine = currentLine.split(' '); totalSamples = parseInt(splittedLine[1]); // Primera linea de datos Nivel 1
+          currentLine = lines[3]; splittedLine = currentLine.split(' '); promedioMuertes = parseFloat(splittedLine[1]);
+          currentLine = lines[4]; splittedLine = currentLine.split(' '); porcentajeFlashes = parseInt(splittedLine[1]);
+          currentLine = lines[5]; splittedLine = currentLine.split(' '); promedioPuntuacion = parseFloat(splittedLine[1]);
+          currentLine = lines[6]; splittedLine = currentLine.split(' '); porcentajeColeccionables = parseInt(splittedLine[1]);
+          currentLine = lines[7]; splittedLine = currentLine.split(' '); promedioTiempoNivel = parseFloat(splittedLine[1]);
+          currentLine = lines[8]; splittedLine = currentLine.split(' '); promedioDetecciones = parseFloat(splittedLine[1]);
+          currentLine = lines[9]; splittedLine = currentLine.split(' '); promedioGuardiasFlasheados = parseFloat(splittedLine[1]);
+          currentLine = lines[10]; splittedLine = currentLine.split(' '); porcentajeCamarasDesactivadas = parseInt(splittedLine[1]);
+          currentLine = lines[11]; splittedLine = currentLine.split(' '); promedioDeteccionCamaras = parseFloat(splittedLine[1]);
+          currentLine = lines[12]; splittedLine = currentLine.split(' '); porcentajeCarretesRecogidos = parseInt(splittedLine[1]);
+          currentLine = lines[13]; splittedLine = currentLine.split(' '); porcentajeFlashesRecogidos = parseInt(splittedLine[1]);
+          currentLine = lines[14]; splittedLine = currentLine.split(' '); promedioTiempoEnHallarObjetivo = parseFloat(splittedLine[1]);
+          currentLine = lines[15]; splittedLine = currentLine.split(' '); promedioFotosContraGuardias = parseFloat(splittedLine[1]);
+          currentLine = lines[16]; splittedLine = currentLine.split(' '); promedioFallosMinijuego = parseFloat(splittedLine[1]);
+          currentLine = lines[17]; splittedLine = currentLine.split(' '); porcentajeColeccionablesConcretos = parseFloat(splittedLine[1]);
 
 		  // GRAFICAS Y DICCIONARIOS (datos con pares) 
           var auxSplitter;
@@ -235,7 +246,7 @@
           auxArray = [];
 
           // MATRICES
-          currentLine = lines[37]; splittedLine = currentLine.split(' '); // CAMBIAD NUMERO POR LA LINEA DEL DATO
+          currentLine = lines[18]; splittedLine = currentLine.split(' '); // CAMBIAD NUMERO POR LA LINEA DEL DATO
           auxSplitter = splittedLine[1].split('|'); // ESTO ES UN ARRAY DE FILAS DE MATRIX
 		  
           for(var i = 0; i < auxSplitter.length; i++){
@@ -248,7 +259,7 @@
             }
           }
 		  
-		  currentLine = lines[38]; splittedLine = currentLine.split(' '); // CAMBIAD NUMERO POR LA LINEA DEL DATO
+		  currentLine = lines[19]; splittedLine = currentLine.split(' '); // CAMBIAD NUMERO POR LA LINEA DEL DATO
           auxSplitter3 = splittedLine[1].split('|'); // ESTO ES UN ARRAY DE FILAS DE MATRIX
 		  console.log(auxSplitter3.length);
           for(var i = 0; i < auxSplitter3.length; i++){
@@ -263,7 +274,7 @@
           }
           // ACTUALIZAMOS LA WEB
 		  heatmap(250,250,173,0, mapaMuertes);
-		  heatmap(250,250,200,1215, mapaCalorNivel);
+		  heatmap(250,250,173,1055, mapaCalorNivel);
           updateWebMetrics();
 
           document.getElementById('output').textContent = 'CARGADO CORRECTAMENTE';
@@ -318,7 +329,6 @@
     document.getElementById("promedioTiempoEnHallarObjetivo").innerHTML = promedioTiempoEnHallarObjetivo;
     document.getElementById("promedioFotosContraGuardias").innerHTML = promedioFotosContraGuardias;
     document.getElementById("promedioFallosMinijuego").innerHTML = promedioFallosMinijuego;
-    document.getElementById("clicksCinematica").innerHTML = clicksCinematica;
 
 	// INIT MATRICES
    
@@ -411,10 +421,10 @@ function initMatrices(){
 			for (var j = 0; j < 100; j++){
 				var x = i / 100 * tamx + posx;
 				var y = j / 100 * tamy + posy;
-			
+		
 				var c = mat[i][j];
 				// btw, we can set a radius on a point basis
-				
+			
 				// add to dataset
 				t.push({ x: x, y:y, value: c, radius: 4 });
 			}
@@ -427,6 +437,35 @@ function initMatrices(){
         };
         // initial generate
         generate();
+  }
+
+  function addToHeatmap(posX, posY,nivel){
+    if (nivel == 1){
+      var x = Math.round((posX + 85) / 1.04);
+      var y = Math.round((posY + 41) / 1.03);
+      matHeatMap [x][y] += 1;
+      if ( matHeatMap [x][y] > maxHeatMap) maxHeatMap = matHeatMap [x][y];
+    } else f (nivel == 2){
+      var x = Math.round((posX + 29) / 0.74);
+      var y = Math.round((posY + 56) / 0.95);
+      matHeatMap [x][y] += 1;
+      if ( matHeatMap [x][y] > maxHeatMap) maxHeatMap = matHeatMap [x][y];
+    } else f (nivel == 3){
+      var x = Math.round((posX + 23) / 1.2;
+      var y = Math.round((posY + 11) / 0.68);
+      matHeatMap [x][y] += 1;
+      if ( matHeatMap [x][y] > maxHeatMap) maxHeatMap = matHeatMap [x][y];
+    }
+  }
+
+  function normalizaMat(){
+    for (int i = 0; i < 100; i++){
+      for (int j = 0; j < 100; j++){
+        var aux = matHeatMap[i][j];
+        aux = aux / maxHeatMap * 100;
+        matHeatMap [i][j] = aux;
+      }
+    }    
   }
 </script>
 
