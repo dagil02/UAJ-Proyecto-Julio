@@ -172,6 +172,18 @@ for (int i = 0; i < 100; i++){
 }
   var maxHeatMap = 0;
 
+  var matDeadMap = [];
+  for(var i=0; i<100; i++) {
+    matDeadMap[i] = new Array(100);
+  }
+
+for (int i = 0; i < 100; i++){
+  for (int j = 0; j < 100; j++){
+    matDeadMap[i][j] = 0;
+  }
+}
+  var maxDeadMap = 0;
+
   function sortFunction(a, b) {
     if (a[0] === b[0]) {
       return 0;
@@ -190,44 +202,16 @@ for (int i = 0; i < 100; i++){
         var reader = new FileReader();
 		
         reader.onload = function() {
-		initMatrices();
+		    initMatrices();
           var lines = reader.result.split(/[\r\n]+/g); // tolerate both Windows and Unix linebreaks
-          console.log(lines.length);
-          console.log(lines[0]);
-          console.log("Lines es de tipo: " + typeof(lines[0]));
+         
 
-          var currentLine = new String(lines[0]);
-          // COMPROBAMOS SI ARCHIVO CORRECTO
-          /*if(currentLine == "Lvl 1"){ // NO FUNCIONA; INTENTAD ARREGLARLO
-              document.getElementById('output').textContent = 'ARCHIVO INCORRECTO POR LINEA';
-              return 0;
-          }*/
-          if(lines.length < 35){
-            document.getElementById('output').textContent = 'ARCHIVO INCORRECTO POR TAMAÑO';
-			console.log("adios");
-            return 0;
+          for (int i = 0; i < lines.length; i++){
+            procesaLinea(lines[i]);
           }
-          // DESCODIFICAMOS
 
-          var splittedLine;
-
-          currentLine = lines[2]; splittedLine = currentLine.split(' '); totalSamples = parseInt(splittedLine[1]); // Primera linea de datos Nivel 1
-          currentLine = lines[3]; splittedLine = currentLine.split(' '); promedioMuertes = parseFloat(splittedLine[1]);
-          currentLine = lines[4]; splittedLine = currentLine.split(' '); porcentajeFlashes = parseInt(splittedLine[1]);
-          currentLine = lines[5]; splittedLine = currentLine.split(' '); promedioPuntuacion = parseFloat(splittedLine[1]);
-          currentLine = lines[6]; splittedLine = currentLine.split(' '); porcentajeColeccionables = parseInt(splittedLine[1]);
-          currentLine = lines[7]; splittedLine = currentLine.split(' '); promedioTiempoNivel = parseFloat(splittedLine[1]);
-          currentLine = lines[8]; splittedLine = currentLine.split(' '); promedioDetecciones = parseFloat(splittedLine[1]);
-          currentLine = lines[9]; splittedLine = currentLine.split(' '); promedioGuardiasFlasheados = parseFloat(splittedLine[1]);
-          currentLine = lines[10]; splittedLine = currentLine.split(' '); porcentajeCamarasDesactivadas = parseInt(splittedLine[1]);
-          currentLine = lines[11]; splittedLine = currentLine.split(' '); promedioDeteccionCamaras = parseFloat(splittedLine[1]);
-          currentLine = lines[12]; splittedLine = currentLine.split(' '); porcentajeCarretesRecogidos = parseInt(splittedLine[1]);
-          currentLine = lines[13]; splittedLine = currentLine.split(' '); porcentajeFlashesRecogidos = parseInt(splittedLine[1]);
-          currentLine = lines[14]; splittedLine = currentLine.split(' '); promedioTiempoEnHallarObjetivo = parseFloat(splittedLine[1]);
-          currentLine = lines[15]; splittedLine = currentLine.split(' '); promedioFotosContraGuardias = parseFloat(splittedLine[1]);
-          currentLine = lines[16]; splittedLine = currentLine.split(' '); promedioFallosMinijuego = parseFloat(splittedLine[1]);
-          currentLine = lines[17]; splittedLine = currentLine.split(' '); porcentajeColeccionablesConcretos = parseFloat(splittedLine[1]);
-
+          normalizaMat();
+          normalizaMat2();
 		  // GRAFICAS Y DICCIONARIOS (datos con pares) 
           var auxSplitter;
           var auxSplitter2;
@@ -246,35 +230,10 @@ for (int i = 0; i < 100; i++){
           auxArray = [];
 
           // MATRICES
-          currentLine = lines[18]; splittedLine = currentLine.split(' '); // CAMBIAD NUMERO POR LA LINEA DEL DATO
-          auxSplitter = splittedLine[1].split('|'); // ESTO ES UN ARRAY DE FILAS DE MATRIX
-		  
-          for(var i = 0; i < auxSplitter.length; i++){
-            auxSplitter2 = auxSplitter[i].split('/'); // ESTO ES UN ARRAY DE LAS COLUMNAS PARA X = i
-			
-            for(var j = 0; j < auxSplitter2.length; j++){
-			if (j < 100 && i < 100){
-              mapaCalorNivel[i][99-j] = parseFloat(auxSplitter2[j]); // CAMBIAR VARIABLE POR EL MAPA EN CONCRETO
-			  }
-            }
-          }
-		  
-		  currentLine = lines[19]; splittedLine = currentLine.split(' '); // CAMBIAD NUMERO POR LA LINEA DEL DATO
-          auxSplitter3 = splittedLine[1].split('|'); // ESTO ES UN ARRAY DE FILAS DE MATRIX
-		  console.log(auxSplitter3.length);
-          for(var i = 0; i < auxSplitter3.length; i++){
-            auxSplitter4 = auxSplitter3[i].split('/'); // ESTO ES UN ARRAY DE LAS COLUMNAS PARA X = i
-		
-            for(var j = 0; j < auxSplitter4.length; j++){
-			if (j < 100 && i < 100){
-			console.log("dentro");
-              mapaMuertes[i][99-j] = parseFloat(auxSplitter4[j]); // CAMBIAR VARIABLE POR EL MAPA EN CONCRETO
-			  }
-            }
-          }
+          
           // ACTUALIZAMOS LA WEB
-		  heatmap(250,250,173,0, mapaMuertes);
-		  heatmap(250,250,173,1055, mapaCalorNivel);
+		  heatmap(250,250,173,0, matDeadMap);
+		  heatmap(250,250,173,1055, matHeatMap);
           updateWebMetrics();
 
           document.getElementById('output').textContent = 'CARGADO CORRECTAMENTE';
@@ -335,13 +294,19 @@ for (int i = 0; i < 100; i++){
     
   }
 function initMatrices(){
-    mapaMuertes = new Array(100);
-    mapaCalorNivel = new Array(100);
-
-    for(var i = 0; i < 100; i++){
-      mapaMuertes[i] = new Array(100);
-      mapaCalorNivel[i] = new Array(100);
+    for (int i = 0; i < 100; i++){
+    for (int j = 0; j < 100; j++){
+      matHeatMap[i][j] = 0;
     }
+    }
+  maxHeatMap = 0;
+
+  for (int i = 0; i < 100; i++){
+  for (int j = 0; j < 100; j++){
+    matDeadMap[i][j] = 0;
+  }
+  }
+  maxDeadMap = 0;
 }
   function loadFile(){
 
@@ -439,6 +404,11 @@ function initMatrices(){
         generate();
   }
 
+procesaLinea(linea){
+//Aqui falta todo el procesado
+
+}
+
   function addToHeatmap(posX, posY,nivel){
     if (nivel == 1){
       var x = Math.round((posX + 85) / 1.04);
@@ -458,12 +428,41 @@ function initMatrices(){
     }
   }
 
+  function addToHeatmap2(posX, posY,nivel){
+    if (nivel == 1){
+      var x = Math.round((posX + 85) / 1.04);
+      var y = Math.round((posY + 41) / 1.03);
+      matDeadMap [x][y] += 1;
+      if ( matDeadMap [x][y] > matDeadMap) matDeadMap = matDeadMap [x][y];
+    } else f (nivel == 2){
+      var x = Math.round((posX + 29) / 0.74);
+      var y = Math.round((posY + 56) / 0.95);
+      matDeadMap [x][y] += 1;
+      if ( matDeadMap [x][y] > matDeadMap) matDeadMap = matDeadMap [x][y];
+    } else f (nivel == 3){
+      var x = Math.round((posX + 23) / 1.2;
+      var y = Math.round((posY + 11) / 0.68);
+      matDeadMap [x][y] += 1;
+      if ( matDeadMap [x][y] > matDeadMap) matDeadMap = matDeadMap [x][y];
+    }
+  }
+
   function normalizaMat(){
     for (int i = 0; i < 100; i++){
       for (int j = 0; j < 100; j++){
         var aux = matHeatMap[i][j];
         aux = aux / maxHeatMap * 100;
         matHeatMap [i][j] = aux;
+      }
+    }    
+  }
+
+  function normalizaMat2(){
+    for (int i = 0; i < 100; i++){
+      for (int j = 0; j < 100; j++){
+        var aux = matDeadMap[i][j];
+        aux = aux / matDeadMap * 100;
+        matDeadMap [i][j] = aux;
       }
     }    
   }
